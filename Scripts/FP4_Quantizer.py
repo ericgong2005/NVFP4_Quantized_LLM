@@ -6,7 +6,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from datasets import Dataset
 from llmcompressor import oneshot
 from llmcompressor.modifiers.quantization import QuantizationModifier
-from modelopt.torch.export import export_hf_model
+from modelopt.torch.export import export_hf_checkpoint
 
 MODEL_ID: str = "../Models/meta-llama_Llama-3.2-3B-Instruct"
 OUT_DIR: str = "../Models/FP4-Llama-3.2-3B-Instruct"
@@ -59,7 +59,7 @@ def main() -> None:
     )
 
     # Export quantized checkpoint in Hugging Face format
-    export_hf_model(mdl_q, tok, out_dir, format="hf")
+    export_hf_checkpoint(mdl_q, tok, out_dir, format="hf")
 
 if __name__ == "__main__":
     main()
