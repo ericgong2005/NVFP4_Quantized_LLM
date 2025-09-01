@@ -7,7 +7,7 @@ import modelopt.torch.quantization as mtq
 
 MODEL_ID: str = "../Models/meta-llama_Llama-3.2-3B-Instruct"
 OUT_DIR: str = "../Models/NVFP4-Llama-3.2-3B-Instruct"
-CALIB_FILE: Path = Path("Misc/calibration_text.txt")
+CALIB_FILE: Path = Path("../Misc/calibration_text.txt")
 MAX_NEW_TOKENS: int = 16
 MODEL_OPT_CONFIG_SYMBOL: str = "NVFP4_DEFAULT_CFG"
 

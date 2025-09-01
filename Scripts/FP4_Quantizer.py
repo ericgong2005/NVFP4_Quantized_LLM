@@ -8,7 +8,7 @@ from llmcompressor.modifiers.quantization import QuantizationModifier
 
 MODEL_ID: str = "../Models/meta-llama_Llama-3.2-3B-Instruct"
 OUT_DIR: str = "../Models/FP4-Llama-3.2-3B-Instruct"
-CALIBRATION_FILE: Path = Path("Misc/calibration_text.txt")
+CALIBRATION_FILE: Path = Path("../Misc/calibration_text.txt")
 GROUP_SIZE: int = 128
 MAX_NEW_TOKENS: int = 16
 
@@ -26,7 +26,8 @@ def main() -> None:
 
     qmod = QuantizationModifier(
         config_groups={
-            "": {
+            "w4a16": {
+                "targets": ["Linear"],
                 "weights": {"dtype": "fp4", "group_size": GROUP_SIZE},
                 "activations": {"dtype": "fp16"},
             }
