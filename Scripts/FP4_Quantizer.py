@@ -59,7 +59,8 @@ def main() -> None:
     )
 
     # Export quantized checkpoint in Hugging Face format
-    export_hf_checkpoint(mdl_q, tok, out_dir, format="hf")
+    with torch.inference_mode():
+        export_hf_checkpoint(mdl_q, out_dir)
 
 if __name__ == "__main__":
     main()
