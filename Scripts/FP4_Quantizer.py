@@ -6,7 +6,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from llmcompressor import oneshot
 from llmcompressor.modifiers.quantization import QuantizationModifier
 
-MODEL_ID: str = "meta-llama/Llama-3.2-3B-Instruct"
+MODEL_ID: str = "../Models/meta-llama_Llama-3.2-3B-Instruct"
 OUT_DIR: str = "../Models/FP4-Llama-3.2-3B-Instruct"
 CALIBRATION_FILE: Path = Path("Misc/calibration_text.txt")
 GROUP_SIZE: int = 128
