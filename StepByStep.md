@@ -30,4 +30,19 @@
 1. Run `python FP4_Quantizer.py` to generate the baseline FP4 quantized model suitable for inference in vLLM
 2. Run `python NVFP4_Quantizer.py` to generate the NVFP4 quantized model suitable for inference in TensorRT-LLM
 
+## Benchmarking Results
+Benchmark Results for FP4:
+Total Requests:                         16
+Concurrency Level:                      8
+Total Latency (ms):                     34355.6032
+Avg Latency (ms):                       2147.2252
+Avg TTFT (ms):                          2147.2047
+Avg Tokens/Response:                    197.00
+Avg TPOT (ms):                          0.0001
+Request Throughput (req/sec):           7.2641
+Total Output Throughput (tokens/sec):   1431.0198
+Total Token Throughput (tokens/sec):    2862.0396
+Per User Output Throughput (tps/user):  178.8775
+Per GPU Output Throughput (tps/gpu):    1431.0198
+Per User Output Speed (tps/user):       178.8775
 
