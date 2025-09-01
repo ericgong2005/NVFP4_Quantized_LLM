@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from huggingface_hub import snapshot_download
 
-OUTPUT_DIRECTORY = "Models"
+OUTPUT_DIRECTORY = "../Models"
 MODEL = "meta-llama/Llama-3.2-3B-Instruct"
 
 def main():
