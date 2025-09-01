@@ -25,6 +25,8 @@
 2. Install most recent (nightly) LLMcompressor library with `pip3 install --pre llmcompressor-nightly`
 3. Install Transformers and Nvidia Model-Opt with `pip3 install transformers nvidia-modelopt`
 4. Alternatively, install the required libraries according to the `requirements.txt`
+5. Create a new virtual environment for the TensorRT-LLM library (avoid dependency conflicts with the nightly libraries)
+6. Install TensorRT-LLM with `pip install tensorrt-llm`
 
 ## Generating FP4 and NVFP4 Models
 1. Run `python FP4_Quantizer.py` to generate the baseline FP4 quantized model suitable for inference in vLLM
