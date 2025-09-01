@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 from pathlib import Path
-import os
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
+from datasets import Dataset
 from llmcompressor import oneshot
 from llmcompressor.modifiers.quantization import QuantizationModifier
 
@@ -17,43 +17,43 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     tok = AutoTokenizer.from_pretrained(MODEL_ID, use_fast=True)
+
     mdl = AutoModelForCausalLM.from_pretrained(
         MODEL_ID,
         torch_dtype=torch.float16,
         device_map=None,
     ).to("cuda").eval()
 
-    prompts = CALIB_FILE.read_text(encoding="utf-8").splitlines()
+    lines = [ln for ln in CALIB_FILE.read_text(encoding="utf-8").splitlines() if ln.strip()]
 
-    def encode(p: str):
-        return tok(
+    input_ids_list, attention_masks = [], []
+    for p in lines:
+        enc = tok(
             p,
-            return_tensors="pt",
+            return_tensors=None,
             truncation=True,
             max_length=MAX_SEQ_LENGTH,
             add_special_tokens=False,
         )
+        input_ids_list.append(enc["input_ids"])
+        attention_masks.append(enc["attention_mask"])
 
-    calib_samples = []
-    for p in prompts:
-        enc = encode(p)
-        calib_samples.append({
-            "input_ids": enc["input_ids"].to("cuda"),
-            "attention_mask": enc["attention_mask"].to("cuda"),
-        })
+    calib_ds = Dataset.from_dict({
+        "input_ids": input_ids_list,
+        "attention_mask": attention_masks,
+    })
 
     recipe = QuantizationModifier(
-        targets="Linear",
-        scheme="FP4",
+        scheme={"W4A16_FP4": ["Linear"]},   # safer default
         ignore=["lm_head"],
     )
 
     oneshot(
         model=mdl,
-        dataset=calib_samples,
+        dataset=calib_ds,
         recipe=recipe,
         max_seq_length=MAX_SEQ_LENGTH,
-        num_calibration_samples=len(calib_samples),
+        num_calibration_samples=len(calib_ds),
         output_dir=str(out_dir),
     )
 

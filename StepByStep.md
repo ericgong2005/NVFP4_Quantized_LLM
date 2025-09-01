@@ -15,12 +15,19 @@
 ## Model Access and Docker Container Setup
 1. Accept the Meta Llama Usage License for Llama-3.3-70B-Instruct
 2. Create a read only Hugging Face key and save it to a `.env` file
-3. Pull the latest version of the VLLM container via `docker pull vllm/vllm-openai:latest`
-    * This project used VLLM version 0.10.1.1
+3. Pull the latest version of the vLLM container via `docker pull vllm/vllm-openai:latest`
+    * This project used vLLM version 0.10.1.1
 4. Pull the latest version of the TensorRT-LLM container via `docker pull nvcr.io/nvidia/tensorrt-llm/<LATEST RELEASE>`
     * This project used TensorRT-LLM 1.1.0rc2 via `docker pull nvcr.io/nvidia/tensorrt-llm/release:1.1.0rc2`
 
-## Python Specifics
+## Python Environment Specifics
 1. Install most recent (nightly) Pytorch libraries with `pip3 install --pre torch torchvision --index-url https://download.pytorch.org/whl/nightly/cu129`
 2. Install most recent (nightly) LLMcompressor library with `pip3 install --pre llmcompressor-nightly`
 3. Install Transformers and Nvidia Model-Opt with `pip3 install transformers nvidia-modelopt`
+4. Alternatively, install the required libraries according to the `requirements.txt`
+
+## Generating FP4 and NVFP4 Models
+1. Run `python FP4_Quantizer.py` to generate the baseline FP4 quantized model suitable for inference in vLLM
+2. Run `python NVFP4_Quantizer.py` to generate the NVFP4 quantized model suitable for inference in TensorRT-LLM
+
+
