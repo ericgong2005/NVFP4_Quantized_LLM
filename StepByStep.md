@@ -30,6 +30,10 @@
 1. Run `python FP4_Quantizer.py` to generate the baseline FP4 quantized model suitable for inference in vLLM
 2. Run `python NVFP4_Quantizer.py` to generate the NVFP4 quantized model suitable for inference in TensorRT-LLM
 
+## Benchmarking Models
+1. To benchmark the FP4 model, start a vLLM container that provides a local API to the model via `./Start_FP4_Model.sh`, then running `python Benchmark_FP4_Model.py`
+2. 
+
 ## Benchmarking Results
 Benchmark Results for FP4:
 Total Requests:                         16
