@@ -19,3 +19,8 @@
     * This project used VLLM version 0.10.1.1
 4. Pull the latest version of the TensorRT-LLM container via `docker pull nvcr.io/nvidia/tensorrt-llm/<LATEST RELEASE>`
     * This project used TensorRT-LLM 1.1.0rc2 via `docker pull nvcr.io/nvidia/tensorrt-llm/release:1.1.0rc2`
+
+## Python Specifics
+1. Install most recent (nightly) Pytorch libraries with `pip3 install --pre torch torchvision --index-url https://download.pytorch.org/whl/nightly/cu129`
+2. Install most recent (nightly) LLMcompressor library with `pip3 install --pre llmcompressor-nightly`
+3. Install Transformers and Nvidia Model-Opt with `pip3 install transformers nvidia-modelopt`
