@@ -14,6 +14,7 @@ mkdir -p "${RESULTS_DIR}"
 docker run -d --rm --name "${NAME}" --gpus all --ipc=host \
   -p ${PORT}:8000 \
   -v "${FP4_DIR}:/model" \
+  -v "${RESULTS_DIR}:/results" \
   "${VLLM_IMG}" \
   --model /model \
   --quantization fp4 \
@@ -22,13 +23,13 @@ docker run -d --rm --name "${NAME}" --gpus all --ipc=host \
 
 sleep 8
 
-# run built-in throughput benchmark (synthetic prompts)
+# run built-in throughput benchmark
 docker exec "${NAME}" python -m vllm.benchmark.throughput \
   --host http://localhost:8000 \
   --num-prompts 3000 \
   --input-len 128 \
   --output-len 128 \
-  --results-file /Results/FP4_vLLM_throughput.json
+  --results-file /results/FP4_vLLM_throughput.json
 
 docker stop "${NAME}" >/dev/null
 

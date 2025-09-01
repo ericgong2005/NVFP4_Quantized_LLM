@@ -2,6 +2,7 @@
 set -euo pipefail
 
 TRTLLM_IMG="nvcr.io/nvidia/tensorrt-llm/release:1.1.0rc2"
+
 WORKDIR="$(pwd)"
 ENG_DIR="${WORKDIR}/../Results/NVFP4-TRT-Engine"
 RESULTS_DIR="${WORKDIR}/../Results"
@@ -10,14 +11,21 @@ NVFP4_DIR="${WORKDIR}/../Models/NVFP4-Llama-3.2-3B-Instruct"
 
 mkdir -p "${ENG_DIR}" "${RESULTS_DIR}" "${DATASETS_DIR}"
 
-# Run everything inside the TRT-LLM container
+# Check that the NVFP4 export has a config.json
+if [[ ! -f "${NVFP4_DIR}/config.json" ]]; then
+  echo "ERROR: No config.json found in ${NVFP4_DIR}"
+  exit 1
+fi
+
 docker run --rm --gpus all --ipc=host \
   -v "${WORKDIR}:${WORKDIR}" \
   -v "${NVFP4_DIR}:/model" \
   -w "${WORKDIR}" \
   "${TRTLLM_IMG}" \
   bash -lc "
-    echo 'Preparing dataset'
+    set -euo pipefail
+
+    echo 'Preparing dataset with NVFP4 tokenizer'
     python3 benchmarks/cpp/prepare_dataset.py \
       --tokenizer /model \
       --dataset-name synthetic \

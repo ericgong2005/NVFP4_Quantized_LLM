@@ -4,6 +4,7 @@ from pathlib import Path
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import modelopt.torch.quantization as mtq
+from modelopt.torch.export import export_hf_model
 
 MODEL_ID: str = "../Models/meta-llama_Llama-3.2-3B-Instruct"
 OUT_DIR: str = "../Models/NVFP4-Llama-3.2-3B-Instruct"
@@ -46,9 +47,8 @@ def main() -> None:
     # Run ModelOpt quantization to NVFP4
     mdl_q = mtq.quantize(mdl, qcfg, forward_loop)
 
-    # Save quantized checkpoint
-    mdl_q.save_pretrained(out_dir)
-    tok.save_pretrained(out_dir)
+    # Export quantized checkpoint in Hugging Face format
+    export_hf_model(mdl_q, tok, out_dir, format="hf")
 
 if __name__ == "__main__":
     main()
