@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from huggingface_hub import snapshot_download
 
 OUTPUT_DIRECTORY = "Models"
-MODELS = ["meta-llama/Llama-3.3-70B-Instruct","nvidia/Llama-3.3-70B-Instruct-FP4"]
+MODEL = "meta-llama/Llama-3.2-3B-Instruct"
 
 def main():
     # Get the Hugging Face Token
@@ -14,13 +14,10 @@ def main():
 
     # Ensure Model directory exists
     os.makedirs(OUTPUT_DIRECTORY, exist_ok=True)
-
-    # Download Models
-    for model in MODELS:
-        print(f"Downloading {model}:")
-        local_dir = os.path.join(OUTPUT_DIRECTORY, model.replace("/", "_"))
-        snapshot_download(repo_id=model, local_dir=local_dir, token=hf_token)
-        print(f"Saved {model} to {local_dir}")
+    
+    print(f"Downloading {MODEL}:")
+    local_dir = os.path.join(OUTPUT_DIRECTORY, MODEL.replace("/", "_"))
+    snapshot_download(repo_id=MODEL, local_dir=local_dir, local_dir_use_symlinks=False, token=hf_token, resume_download=True)
 
 if __name__ == "__main__":
     main()

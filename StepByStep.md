@@ -10,6 +10,7 @@
 4. Update the WLS Ubuntu with `sudo apt-get update && sudo apt-get -y upgrade`
 4. Confirm that Docker is accessible in WSL by running `docker --version` in the Ubuntu terminal
 5. Start a container that tests that the GPU is visible via `docker run --rm --gpus all nvidia/cuda:12.4.1-base-ubuntu22.04 nvidia-smi`
+6. Setup a Github SSH key within a WSL terminal following provided instructions on github
 
 ## Model Access and Docker Container Setup
 1. Accept the Meta Llama Usage License for Llama-3.3-70B-Instruct
