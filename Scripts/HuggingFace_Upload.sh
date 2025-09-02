@@ -8,7 +8,7 @@ fi
 
 HF_USER="$1"
 MODEL_NAME="NVFP4-Llama-3.2-3B-Instruct"
-LOCAL_DIR="/workspace/Models/NVFP4-Llama-3.2-3B-Instruct"
+LOCAL_DIR="/../Models/NVFP4-Llama-3.2-3B-Instruct"
 REPO_ID="${HF_USER}/${MODEL_NAME}"
 
 REQUIRED_FILES=(
