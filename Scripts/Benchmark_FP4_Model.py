@@ -10,7 +10,7 @@ PROMPT = "Tell me a short story about a dragon and a wizard."
 MAX_TOKENS = 256
 CONCURRENCY = 8 
 REQUESTS = 16
-GPUS = 1  # Assumed for per-GPU metrics; adjust as needed
+GPUS = 1
 
 HEADERS = {"Content-Type": "application/json"}
 
@@ -67,12 +67,11 @@ def report(results):
     avg_latency = mean(latencies)
     avg_ttft = mean(ttfts)
     avg_tokens = mean(tokens)
-    max_time = max(r["latency"] for r in results)  # Approximates total wall time
+    max_time = max(r["latency"] for r in results) 
 
     # Derived metrics
     req_throughput = len(results) / max_time
     output_throughput = total_tokens / max_time
-    total_token_throughput = output_throughput * 2  # assumes input = output tokens
     avg_tpot = (avg_latency - avg_ttft) / avg_tokens if avg_tokens > 0 else 0
     per_user_output_tps = output_throughput / CONCURRENCY
     per_user_speed = total_tokens / (CONCURRENCY * max_time)
@@ -88,7 +87,6 @@ def report(results):
     print(f"Avg TPOT (ms):\t\t\t\t{avg_tpot * 1000:.4f}")
     print(f"Request Throughput (req/sec):\t\t{req_throughput:.4f}")
     print(f"Total Output Throughput (tokens/sec):\t{output_throughput:.4f}")
-    print(f"Total Token Throughput (tokens/sec):\t{total_token_throughput:.4f}")
     print(f"Per User Output Throughput (tps/user):\t{per_user_output_tps:.4f}")
     print(f"Per GPU Output Throughput (tps/gpu):\t{per_gpu_throughput:.4f}")
     print(f"Per User Output Speed (tps/user):\t{per_user_speed:.4f}")

@@ -54,6 +54,38 @@ python examples/models/core/llama/convert_checkpoint.py \
   --max_num_tokens 8192 \
   --gemm_plugin nvfp4
 
+  cat >/workspace/dataset.jsonl <<'JSONL'
+{"task_id":0,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
+{"task_id":1,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
+{"task_id":2,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
+{"task_id":3,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
+{"task_id":4,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
+{"task_id":5,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
+{"task_id":6,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
+{"task_id":7,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
+{"task_id":8,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
+{"task_id":9,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
+{"task_id":10,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
+{"task_id":11,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
+{"task_id":12,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
+{"task_id":13,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
+{"task_id":14,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
+{"task_id":15,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
+JSONL
+
+export HF_TOKEN=hf_xxx
+export HUGGINGFACE_TOKEN=hf_xxx
+
+trtllm-bench --model meta-llama/Llama-3.2-3B-Instruct throughput \
+  --engine_dir /workspace/engine \
+  --dataset /workspace/dataset.jsonl \
+  --concurrency 8 \
+  --num_requests 16 \
+  --warmup 0 \
+  --report_json /workspace/bench_results.json
+
+
+
 ## Benchmarking Results
 Benchmark Results for FP4:
 Total Requests:                         16
@@ -65,8 +97,71 @@ Avg Tokens/Response:                    197.00
 Avg TPOT (ms):                          0.0001
 Request Throughput (req/sec):           7.2641
 Total Output Throughput (tokens/sec):   1431.0198
-Total Token Throughput (tokens/sec):    2862.0396
 Per User Output Throughput (tps/user):  178.8775
 Per GPU Output Throughput (tps/gpu):    1431.0198
 Per User Output Speed (tps/user):       178.8775
+
+Request Throughput (req/sec):                     4.7501
+Total Output Throughput (tokens/sec):             1216.0159
+Total Token Throughput (tokens/sec):              1277.7668
+Total Latency (ms):                               3368.3769
+Average request latency (ms):                     1682.9355
+Per User Output Throughput [w/ ctx] (tps/user):   152.1153
+Per GPU Output Throughput (tps/gpu):              1216.0159
+
+===========================================================
+= PYTORCH BACKEND
+===========================================================
+Model:                  meta-llama/Llama-3.2-3B-Instruct
+Model Path:             None
+TensorRT-LLM Version:   1.1.0rc2
+Dtype:                  bfloat16
+KV Cache Dtype:         None
+Quantization:           None
+
+===========================================================
+= REQUEST DETAILS
+===========================================================
+Number of requests:             16
+Number of concurrent requests:  7.9940
+Average Input Length (tokens):  13.0000
+Average Output Length (tokens): 256.0000
+===========================================================
+= WORLD + RUNTIME INFORMATION
+===========================================================
+TP Size:                1
+PP Size:                1
+EP Size:                None
+Max Runtime Batch Size: 2816
+Max Runtime Tokens:     3072
+Scheduling Policy:      GUARANTEED_NO_EVICT
+KV Memory Percentage:   90.00%
+Issue Rate (req/sec):   1.0535E+17
+
+===========================================================
+= PERFORMANCE OVERVIEW
+===========================================================
+Request Throughput (req/sec):                     4.7501
+Total Output Throughput (tokens/sec):             1216.0159
+Total Token Throughput (tokens/sec):              1277.7668
+Total Latency (ms):                               3368.3769
+Average request latency (ms):                     1682.9355
+Per User Output Throughput [w/ ctx] (tps/user):   152.1153
+Per GPU Output Throughput (tps/gpu):              1216.0159
+
+-- Request Latency Breakdown (ms) -----------------------
+
+[Latency] P50    : 1683.3179
+[Latency] P90    : 1683.8753
+[Latency] P95    : 1683.9602
+[Latency] P99    : 1683.9602
+[Latency] MINIMUM: 1678.1686
+[Latency] MAXIMUM: 1683.9602
+[Latency] AVERAGE: 1682.9355
+
+===========================================================
+= DATASET DETAILS
+===========================================================
+Dataset Path:         /workspace/dataset.jsonl
+Number of Sequences:  16
 
