@@ -28,61 +28,18 @@
 5. Create a new virtual environment for the TensorRT-LLM library (avoid dependency conflicts with the nightly libraries)
 6. Install TensorRT-LLM with `pip install tensorrt-llm`
 
-## Generating FP4 and NVFP4 Models
+## Generating FP4, FP8 and NVFP4 Models
 1. Run `python FP4_Quantizer.py` to generate the baseline FP4 quantized model suitable for inference in vLLM
+1. Run `python FP8_Quantizer.py` to generate the baseline FP8 quantized model suitable for inference in vLLM
 2. Run `python NVFP4_Quantizer.py` to generate the NVFP4 quantized model suitable for inference in TensorRT-LLM
 
-## Benchmarking the FP4 Model
-1. To benchmark the FP4 model, start a vLLM container that provides a local API to the model via `./Start_FP4_Model.sh`, then running `python Benchmark_FP4_Model.py`
+## Benchmarking the FP4 and FP8 Models
+1. To benchmark the FP4 and FP8 model, start a vLLM container that provides a local API to the model via `./Start_FP4_Model.sh` or `./Start_FP8_Model.sh` then running `python Benchmark_Base_Model.py`
 
 ## Benchmakring the NVFP4 Model
 1. To benchmark the NVFP4 model, start a TensorRT container via `./Scripts/Start_TensorRT_Container.sh` in the main project directory (not the Scripts directory)
-2. In the TensorRT container, 
+2. In the TensorRT container, run `./Benchmark_NVFP4_Model.sh <HF_Token>`
 
-
-python examples/models/core/llama/convert_checkpoint.py \
-  --model_dir /workspace/Models/NVFP4-Llama-3.2-3B-Instruct \
-  --output_dir /workspace/tllm_ckpt \
-  --dtype float16 \
-  --workers 4 \
-  --use_nvfp4
-
-  trtllm-build \
-  --checkpoint_dir /workspace/tllm_ckpt \
-  --output_dir /workspace/engine \
-  --max_batch_size 4096 \
-  --max_num_tokens 8192 \
-  --gemm_plugin nvfp4
-
-  cat >/workspace/dataset.jsonl <<'JSONL'
-{"task_id":0,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
-{"task_id":1,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
-{"task_id":2,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
-{"task_id":3,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
-{"task_id":4,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
-{"task_id":5,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
-{"task_id":6,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
-{"task_id":7,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
-{"task_id":8,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
-{"task_id":9,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
-{"task_id":10,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
-{"task_id":11,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
-{"task_id":12,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
-{"task_id":13,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
-{"task_id":14,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
-{"task_id":15,"prompt":"Tell me a short story about a dragon and a wizard.","output_tokens":256}
-JSONL
-
-export HF_TOKEN=hf_xxx
-export HUGGINGFACE_TOKEN=hf_xxx
-
-trtllm-bench --model meta-llama/Llama-3.2-3B-Instruct throughput \
-  --engine_dir /workspace/engine \
-  --dataset /workspace/dataset.jsonl \
-  --concurrency 8 \
-  --num_requests 16 \
-  --warmup 0 \
-  --report_json /workspace/bench_results.json
 
 
 
