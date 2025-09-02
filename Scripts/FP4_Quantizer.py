@@ -9,7 +9,7 @@ from llmcompressor.modifiers.quantization import QuantizationModifier
 from modelopt.torch.export import export_hf_checkpoint
 
 MODEL_ID: str = "../Models/meta-llama_Llama-3.2-3B-Instruct"
-OUT_DIR: str = "../Models/FP4-Llama-3.2-3B-Instruct-2"
+OUT_DIR: str = "../Models/FP4-Llama-3.2-3B-Instruct"
 CALIB_FILE: Path = Path("../Misc/calibration_text.txt")
 MAX_SEQ_LENGTH: int = 2048
 

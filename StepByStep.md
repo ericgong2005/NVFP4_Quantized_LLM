@@ -36,15 +36,12 @@
 ## Benchmarking the FP4 and FP8 Models
 1. To benchmark the FP4 and FP8 model, start a vLLM container that provides a local API to the model via `./Start_FP4_Model.sh` or `./Start_FP8_Model.sh` then running `python Benchmark_Base_Model.py`
 
-## Benchmakring the NVFP4 Model
+## Benchmarking the NVFP4 Model
 1. To benchmark the NVFP4 model, start a TensorRT container via `./Scripts/Start_TensorRT_Container.sh` in the main project directory (not the Scripts directory)
 2. In the TensorRT container, run `./Benchmark_NVFP4_Model.sh <HF_Token>`
 
-
-
-
 ## Benchmarking Results
-Benchmark Results for FP4:
+### Benchmark Results for FP4:
 Total Requests:                         16
 Concurrency Level:                      8
 Total Latency (ms):                     34355.6032
@@ -58,6 +55,22 @@ Per User Output Throughput (tps/user):  178.8775
 Per GPU Output Throughput (tps/gpu):    1431.0198
 Per User Output Speed (tps/user):       178.8775
 
+### Benchmark Results for FP8:
+Benchmark Results:
+Total Requests:                         16
+Concurrency Level:                      8
+Total Latency (ms):                     354211.2808
+Avg Latency (ms):                       22138.2051
+Avg TTFT (ms):                          22138.1843
+Avg Tokens/Response:                    197.00
+Avg TPOT (ms):                          0.0001
+Request Throughput (req/sec):           0.3563
+Total Output Throughput (tokens/sec):   70.1927
+Per User Output Throughput (tps/user):  8.7741
+Per GPU Output Throughput (tps/gpu):    70.1927
+Per User Output Speed (tps/user):       8.7741
+
+### Benchmarking Results for NVFP4:
 Request Throughput (req/sec):                     4.7501
 Total Output Throughput (tokens/sec):             1216.0159
 Total Token Throughput (tokens/sec):              1277.7668
@@ -65,60 +78,4 @@ Total Latency (ms):                               3368.3769
 Average request latency (ms):                     1682.9355
 Per User Output Throughput [w/ ctx] (tps/user):   152.1153
 Per GPU Output Throughput (tps/gpu):              1216.0159
-
-===========================================================
-= PYTORCH BACKEND
-===========================================================
-Model:                  meta-llama/Llama-3.2-3B-Instruct
-Model Path:             None
-TensorRT-LLM Version:   1.1.0rc2
-Dtype:                  bfloat16
-KV Cache Dtype:         None
-Quantization:           None
-
-===========================================================
-= REQUEST DETAILS
-===========================================================
-Number of requests:             16
-Number of concurrent requests:  7.9940
-Average Input Length (tokens):  13.0000
-Average Output Length (tokens): 256.0000
-===========================================================
-= WORLD + RUNTIME INFORMATION
-===========================================================
-TP Size:                1
-PP Size:                1
-EP Size:                None
-Max Runtime Batch Size: 2816
-Max Runtime Tokens:     3072
-Scheduling Policy:      GUARANTEED_NO_EVICT
-KV Memory Percentage:   90.00%
-Issue Rate (req/sec):   1.0535E+17
-
-===========================================================
-= PERFORMANCE OVERVIEW
-===========================================================
-Request Throughput (req/sec):                     4.7501
-Total Output Throughput (tokens/sec):             1216.0159
-Total Token Throughput (tokens/sec):              1277.7668
-Total Latency (ms):                               3368.3769
-Average request latency (ms):                     1682.9355
-Per User Output Throughput [w/ ctx] (tps/user):   152.1153
-Per GPU Output Throughput (tps/gpu):              1216.0159
-
--- Request Latency Breakdown (ms) -----------------------
-
-[Latency] P50    : 1683.3179
-[Latency] P90    : 1683.8753
-[Latency] P95    : 1683.9602
-[Latency] P99    : 1683.9602
-[Latency] MINIMUM: 1678.1686
-[Latency] MAXIMUM: 1683.9602
-[Latency] AVERAGE: 1682.9355
-
-===========================================================
-= DATASET DETAILS
-===========================================================
-Dataset Path:         /workspace/dataset.jsonl
-Number of Sequences:  16
 
