@@ -1,1 +1,8 @@
-# My NVFP4 Llama-3.3-70B-Instruct Model
+# Evaluating NVFP4 LLM Models
+
+This project evaluates an NVFP4 quantized `meta-llama/Llama-3.2-3B-Instruct` model against two baselines: an FP4 quantized `meta-llama/Llama-3.2-3B-Instruct` model and an FP8 quantized `meta-llama/Llama-3.2-3B-Instruct` model. 
+
+The quantization and inference benchmarking for these models is conducted on an NVIDIA RTX PRO 6000 Blackwell Workstation Edition GPU. The NVFP4 model is quantized via NVIDIA's ModelOpt library and compiled to a TensorRT checkpoint with inference and benchmarking conducted in a TensorRT Docker Container with the TensorRT-LLM tool suite. The FP4 and FP8 models are quantized via the vLLM LLMCompressor library, with inference and benchmarking conducted in a vLLM Docker Container serving a local LLM API endpoint.
+
+We quantitatively benchmark and compare model throughput, and qualitatively compare model generation quality. We find that the NVFP4 model has comparable throughput to FP4 model as measured in Tokens per Second (Around 12% difference, with 1278 and 1431 Tokens per Second respectively). However it is also the case that the FP4 model exhibits noticably lower coherency in generated text in comparison to the NVFP4 model. On the other hand, the NVFP4 model unsurprisingly has significantly higher throughput than the FP8 model as measured in Tokens per Second (Around 18x difference, with 1278 and 70 Tokens per Second respectively). In addition, the NVFP4 model exhibits comparable coherency in generated text compared to the FP8 model, indicating low degredation of performance despite andditional quantization. This is in line with the findings reported by NVIDIA in their announcment of the NVFP4 format.
+

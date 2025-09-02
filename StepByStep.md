@@ -42,40 +42,40 @@
 
 ## Benchmarking Results
 ### Benchmark Results for FP4:
-Total Requests:                         16
-Concurrency Level:                      8
-Total Latency (ms):                     34355.6032
-Avg Latency (ms):                       2147.2252
-Avg TTFT (ms):                          2147.2047
-Avg Tokens/Response:                    197.00
-Avg TPOT (ms):                          0.0001
-Request Throughput (req/sec):           7.2641
-Total Output Throughput (tokens/sec):   1431.0198
-Per User Output Throughput (tps/user):  178.8775
-Per GPU Output Throughput (tps/gpu):    1431.0198
-Per User Output Speed (tps/user):       178.8775
+Total Requests:                         16  
+Concurrency Level:                      8  
+Total Latency (ms):                     34355.6032  
+Avg Latency (ms):                       2147.2252  
+Avg TTFT (ms):                          2147.2047  
+Avg Tokens/Response:                    197.00  
+Avg TPOT (ms):                          0.0001  
+Request Throughput (req/sec):           7.2641  
+Total Output Throughput (tokens/sec):   1431.0198  
+Per User Output Throughput (tps/user):  178.8775  
+Per GPU Output Throughput (tps/gpu):    1431.0198  
+Per User Output Speed (tps/user):       178.8775  
 
 ### Benchmark Results for FP8:
-Benchmark Results:
-Total Requests:                         16
-Concurrency Level:                      8
-Total Latency (ms):                     354211.2808
-Avg Latency (ms):                       22138.2051
-Avg TTFT (ms):                          22138.1843
-Avg Tokens/Response:                    197.00
-Avg TPOT (ms):                          0.0001
-Request Throughput (req/sec):           0.3563
-Total Output Throughput (tokens/sec):   70.1927
-Per User Output Throughput (tps/user):  8.7741
-Per GPU Output Throughput (tps/gpu):    70.1927
-Per User Output Speed (tps/user):       8.7741
+Benchmark Results: 
+Total Requests:                         16  
+Concurrency Level:                      8  
+Total Latency (ms):                     354211.2808  
+Avg Latency (ms):                       22138.2051  
+Avg TTFT (ms):                          22138.1843  
+Avg Tokens/Response:                    197.00  
+Avg TPOT (ms):                          0.0001  
+Request Throughput (req/sec):           0.3563  
+Total Output Throughput (tokens/sec):   70.1927  
+Per User Output Throughput (tps/user):  8.7741  
+Per GPU Output Throughput (tps/gpu):    70.1927  
+Per User Output Speed (tps/user):       8.7741  
 
 ### Benchmarking Results for NVFP4:
-Request Throughput (req/sec):                     4.7501
-Total Output Throughput (tokens/sec):             1216.0159
-Total Token Throughput (tokens/sec):              1277.7668
-Total Latency (ms):                               3368.3769
-Average request latency (ms):                     1682.9355
-Per User Output Throughput [w/ ctx] (tps/user):   152.1153
-Per GPU Output Throughput (tps/gpu):              1216.0159
+Request Throughput (req/sec):                     4.7501  
+Total Output Throughput (tokens/sec):             1216.0159  
+Total Token Throughput (tokens/sec):              1277.7668  
+Total Latency (ms):                               3368.3769  
+Average request latency (ms):                     1682.9355  
+Per User Output Throughput [w/ ctx] (tps/user):   152.1153  
+Per GPU Output Throughput (tps/gpu):              1216.0159  
 
