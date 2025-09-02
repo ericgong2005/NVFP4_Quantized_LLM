@@ -32,9 +32,27 @@
 1. Run `python FP4_Quantizer.py` to generate the baseline FP4 quantized model suitable for inference in vLLM
 2. Run `python NVFP4_Quantizer.py` to generate the NVFP4 quantized model suitable for inference in TensorRT-LLM
 
-## Benchmarking Models
+## Benchmarking the FP4 Model
 1. To benchmark the FP4 model, start a vLLM container that provides a local API to the model via `./Start_FP4_Model.sh`, then running `python Benchmark_FP4_Model.py`
-2. 
+
+## Benchmakring the NVFP4 Model
+1. To benchmark the NVFP4 model, start a TensorRT container via `./Scripts/Start_TensorRT_Container.sh` in the main project directory (not the Scripts directory)
+2. In the TensorRT container, 
+
+
+python examples/models/core/llama/convert_checkpoint.py \
+  --model_dir /workspace/Models/NVFP4-Llama-3.2-3B-Instruct \
+  --output_dir /workspace/tllm_ckpt \
+  --dtype float16 \
+  --workers 4 \
+  --use_nvfp4
+
+  trtllm-build \
+  --checkpoint_dir /workspace/tllm_ckpt \
+  --output_dir /workspace/engine \
+  --max_batch_size 4096 \
+  --max_num_tokens 8192 \
+  --gemm_plugin nvfp4
 
 ## Benchmarking Results
 Benchmark Results for FP4:
